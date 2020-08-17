@@ -12,19 +12,19 @@ const options = {
   progress: undefined
 };
 
-info = (text) => {
+const info = (text) => {
   toast.info(text, options);
 };
 
-success = (text) => {
+const success = (text) => {
   toast.success(text, options);
 };
 
-warn = (text) => {
+const warn = (text) => {
   toast.warn(text, options);
 };
 
-error = (text) => {
+const error = (text) => {
   toast.error(text, options);
 };
 

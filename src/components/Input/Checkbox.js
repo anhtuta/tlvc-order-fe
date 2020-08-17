@@ -2,7 +2,7 @@ import React from 'react';
 import './Checkbox.scss';
 
 const Checkbox = (props) => {
-  const { text, name, className = '', checked = false } = props;
+  const { text, name, className = '', checked = false, disabled = false } = props;
   const classes = `cb ${className}`;
 
   const onChange = (e) => {
@@ -13,7 +13,13 @@ const Checkbox = (props) => {
     <div className={classes}>
       <label className="custom-cb-container">
         {text}
-        <input name={name} onChange={onChange} type="checkbox" checked={checked} />
+        <input
+          type="checkbox"
+          name={name}
+          onChange={onChange}
+          checked={checked}
+          disabled={disabled}
+        />
         <span className="checkmark"></span>
       </label>
     </div>

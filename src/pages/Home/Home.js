@@ -33,6 +33,7 @@ class Home extends PureComponent {
     let size = params.size ? params.size : 10;
     TlvcOrderService.getAllTlvcOrder(params)
       .then((res) => {
+        console.log(res);
         this.setState({
           data: res.data.records,
           pages: Math.ceil(res.data.totalCount / size),
@@ -116,6 +117,7 @@ class Home extends PureComponent {
     };
     TlvcOrderService.updateTlvcOrderStatus(data)
       .then((res) => {
+        Toast.success('Cập nhật trạng thái thành công!');
         this.getAllTlvcOrder({ page: 0, size: 10 });
         this.setState({
           updateList: []
@@ -150,7 +152,7 @@ class Home extends PureComponent {
           columns={this.columns}
           onFetchData={this.getAllTlvcOrder}
           className="tlvc-order-table"
-          defaultPageSize={5}
+          defaultPageSize={10}
           data={data}
           pages={pages}
           loading={loading}
