@@ -33,7 +33,6 @@ class Home extends PureComponent {
     let size = params.size ? params.size : 10;
     TlvcOrderService.getAllTlvcOrder(params)
       .then((res) => {
-        console.log(res);
         this.setState({
           data: res.data.records,
           pages: Math.ceil(res.data.totalCount / size),
@@ -41,7 +40,7 @@ class Home extends PureComponent {
         });
       })
       .catch((err) => {
-        console.log(err);
+        Toast.error(err);
         this.setState({
           loading: false
         });
@@ -78,7 +77,29 @@ class Home extends PureComponent {
     },
     {
       Header: 'Trạng thái',
-      accessor: 'status'
+      accessor: 'status',
+      getProps: (state, rowInfo, column) => {
+        const status = rowInfo ? rowInfo.original.status : null;
+        let color;
+        switch (status) {
+          case ORDER_SUCCESS:
+            color = '#28a745';
+            break;
+          case ORDER_CANCEL:
+            color = '#dc3545';
+            break;
+          default:
+            color = null;
+            break;
+        }
+
+        return {
+          style: {
+            color: color,
+            fontWeight: color ? 'bold' : null
+          }
+        };
+      }
     },
     {
       Header: '',
@@ -93,21 +114,17 @@ class Home extends PureComponent {
   ];
 
   updateListId = (id, checked) => {
-    console.log(id, checked, this.state.updateList);
     // Nếu dùng như sau ko được, bởi vì .this.state.updateList sẽ ko bị thay đổi
     // (Vẫn là 1 object đó)
     // Do đó lệnh setState ở dưới ko render lại!
     // let { updateList } = this.state;
     let updateList = [...this.state.updateList];
     if (checked) {
-      console.log('check=true');
       updateList.push(id);
     } else {
       updateList.splice(updateList.indexOf(id), 1);
     }
-    this.setState({ updateList }, () => {
-      console.log(updateList);
-    });
+    this.setState({ updateList });
   };
 
   updateStatus = (status) => {
@@ -124,13 +141,12 @@ class Home extends PureComponent {
         });
       })
       .catch((err) => {
-        console.log(err);
+        Toast.error(err);
       });
   };
 
   render() {
     const { data, pages, loading, updateList } = this.state;
-    console.log(this.state);
     return (
       <div>
         <h2>Danh sách đặt hàng</h2>
