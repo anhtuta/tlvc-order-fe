@@ -11,9 +11,7 @@ const cleanParam = (obj) => {
 };
 
 const axiosClient = axios.create({
-  // baseURL: window.location.protocol + '//' + window.location.hostname + '/tlvc-api', // local
-  baseURL: 'http://localhost:8888/',
-  // baseURL: 'https://xuongducdongyyen.com/tlvc-api', // product
+  baseURL: process.env.REACT_APP_HOST_API,
   headers: {
     'content-type': 'application/json'
   },

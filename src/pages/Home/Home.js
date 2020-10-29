@@ -30,7 +30,6 @@ class Home extends PureComponent {
 
   getAllTlvcOrder = (params) => {
     this.setState({ loading: true });
-    let size = params.size ? params.size : 10;
     TlvcOrderService.getAllTlvcOrder(params)
       .then((res) => {
         this.setState({
