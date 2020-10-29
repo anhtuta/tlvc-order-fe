@@ -22,7 +22,7 @@ const ORDER_CANCEL = 'HỦY BỎ';
  */
 class Home extends PureComponent {
   state = {
-    data: [],
+    data: {},
     pages: -1,
     loading: false,
     updateList: []
@@ -34,8 +34,7 @@ class Home extends PureComponent {
     TlvcOrderService.getAllTlvcOrder(params)
       .then((res) => {
         this.setState({
-          data: res.data.records,
-          pages: Math.ceil(res.data.totalCount / size),
+          data: res.data,
           loading: false
         });
       })
@@ -60,11 +59,8 @@ class Home extends PureComponent {
     {
       Header: 'Số điện thoại',
       accessor: 'phone',
-      Cell: (props) => <a href={'tel:' + props.value}>{props.value}</a>
-    },
-    {
-      Header: 'Địa chỉ',
-      accessor: 'address'
+      Cell: (props) => <a href={'tel:' + props.value}>{props.value}</a>,
+      sortable: false
     },
     {
       Header: 'Ngày đặt hàng',
@@ -72,8 +68,8 @@ class Home extends PureComponent {
       Cell: (props) => <Moment format="HH:mm DD/MM/YYYY">{props.value}</Moment>
     },
     {
-      Header: 'Lời nhắn',
-      accessor: 'message'
+      Header: 'Sản phẩm đặt hàng',
+      accessor: 'product'
     },
     {
       Header: 'Trạng thái',
@@ -147,6 +143,7 @@ class Home extends PureComponent {
 
   render() {
     const { data, pages, loading, updateList } = this.state;
+    console.log(this.state);
     return (
       <div>
         <h2>Danh sách đặt hàng</h2>

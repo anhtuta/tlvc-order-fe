@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Menu from './components/Menu/Menu';
 import routes from './routes';
 import { Switch, Route, HashRouter } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import './scss/App.scss';
 
 class App extends Component {
