@@ -20,14 +20,20 @@ jobs:
       #     command: |
       #       npm run test a
       - run:
-          name: Build
-          command: npm build
+          name: install dependencies
+          command: yarn install
       - save_cache:
           paths:
             - ~/usr/local/lib/node_modules  # location depends on npm version
           key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Build
+          command: yarn build
+      - run:
+          name: Compress Artifacts
+          command: tar -cvzf tlvc-order-fe-build.tar build
       - store_artifacts:
-          path: build
+          path: tlvc-order-fe-build.tar
 
 workflows:
   version: 2.1
