@@ -1,0 +1,40 @@
+# This code is licensed from CircleCI to the user under the MIT license.
+# See here for details: https://circleci.com/developer/orbs/licensing
+version: 2.1
+jobs:
+  build-and-publish:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies- # fallback to using the latest cache if no exact match is found
+      # - run:
+      #     name: Prepare for testing
+      #     command: |
+      #       npm install --save-dev @testing-library/react
+      # - run:
+      #     name: Run unit-tests
+      #     command: |
+      #       npm run test a
+      - run:
+          name: Build
+          command: npm build
+      - save_cache:
+          paths:
+            - ~/usr/local/lib/node_modules  # location depends on npm version
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - store_artifacts:
+          path: build
+
+workflows:
+  version: 2.1
+  sample-workflow:
+    jobs:
+      - build-and-publish:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - dev
