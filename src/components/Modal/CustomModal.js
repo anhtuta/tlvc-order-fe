@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 const CustomModal = (props) => {
-  const { buttonLabel, className } = props;
+  const { className, affirmText, cancelText } = props;
 
   const [modal, setModal] = useState(false);
 
@@ -10,18 +11,15 @@ const CustomModal = (props) => {
 
   return (
     <div>
-      <Button color="danger" onClick={toggle}>
-        {buttonLabel}
-      </Button>
       <Modal isOpen={modal} toggle={toggle} className={className}>
         <ModalHeader toggle={toggle}>Modal title</ModalHeader>
         <ModalBody>{props.children}</ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={toggle}>
-            Do Something
+            {affirmText}
           </Button>{' '}
           <Button color="secondary" onClick={toggle}>
-            Cancel
+            {cancelText}
           </Button>
         </ModalFooter>
       </Modal>
@@ -29,4 +27,9 @@ const CustomModal = (props) => {
   );
 };
 
+CustomModal.propTypes = {
+  data: PropTypes.object.isRequired,
+  columns: PropTypes.array.isRequired,
+  onFetchData: PropTypes.func
+};
 export default CustomModal;

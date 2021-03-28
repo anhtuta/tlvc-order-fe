@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
+import { PRD_TLVC, PRD_MAY_LOC_KK } from '../../constants/Constants';
 import { Route, Link } from 'react-router-dom';
 
 const menus = [
   {
     name: 'Home',
     to: '/',
+    exact: true
+  },
+  {
+    name: PRD_TLVC,
+    to: '/tlvc',
+    exact: true
+  },
+  {
+    name: PRD_MAY_LOC_KK,
+    to: '/may-loc-kk',
     exact: true
   },
   {

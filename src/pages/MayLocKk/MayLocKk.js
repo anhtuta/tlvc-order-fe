@@ -4,23 +4,15 @@ import Button from '../../components/Button/Button';
 import Checkbox from '../../components/Input/Checkbox';
 import Table from '../../components/Table/Table';
 import Toast from '../../components/Toast/Toast';
-import OrderService from './OrderService';
-import './Home.scss';
+import { PRD_MAY_LOC_KK } from '../../constants/Constants';
+import MayLocKkService from './MayLocKkService';
+import OrderService from '../Home/OrderService';
+import './MayLocKk.scss';
 
 const ORDER_SUCCESS = 'THÀNH CÔNG';
 const ORDER_CANCEL = 'HỦY BỎ';
 
-/**
- * Với cách này, mọi data của table đều do Component cha là thằng Home quản lý,
- * nên Table2 ko cần state nữa mà chỉ cần là functional component.
- * Mọi data của table2 sẽ được lấy từ state của Home, truyền thông qua props.
- *
- * Flow của cách này: Chẳng hạn user click vào chuyển trang hoặc sort:
- * Table2 gọi onFetchData -> gọi onFetchData của Home lấy lại data
- * -> onFetchData của Home updateState -> Home rerender với state mới
- * -> Home truyền props mới cho Table2 -> Table2 rerender với data mới
- */
-class Home extends PureComponent {
+class MayLocKk extends PureComponent {
   state = {
     data: {},
     pages: -1,
@@ -28,9 +20,9 @@ class Home extends PureComponent {
     updateList: []
   };
 
-  getAllOrder = (params) => {
+  getMayLocKkOrder = (params) => {
     this.setState({ loading: true });
-    OrderService.getAllOrder(params)
+    MayLocKkService.getMayLocKkOrder(params)
       .then((res) => {
         this.setState({
           data: res.data,
@@ -72,10 +64,6 @@ class Home extends PureComponent {
       Cell: (props) => <Moment format="DD/MM/YYYY HH:mm">{props.value}</Moment>
     },
     {
-      Header: 'Sản phẩm đặt hàng',
-      accessor: 'product'
-    },
-    {
       Header: 'Trạng thái',
       accessor: 'status',
       getProps: (state, rowInfo, column) => {
@@ -114,10 +102,6 @@ class Home extends PureComponent {
   ];
 
   updateListId = (id, checked) => {
-    // Nếu dùng như sau ko được, bởi vì .this.state.updateList sẽ ko bị thay đổi
-    // (Vẫn là 1 object đó)
-    // Do đó lệnh setState ở dưới ko render lại!
-    // let { updateList } = this.state;
     let updateList = [...this.state.updateList];
     if (checked) {
       updateList.push(id);
@@ -135,7 +119,7 @@ class Home extends PureComponent {
     OrderService.updateOrderStatus(data)
       .then((res) => {
         Toast.success('Cập nhật trạng thái thành công!');
-        this.getAllOrder({ page: 0, size: 10 });
+        this.getMayLocKkOrder({ page: 0, size: 10 });
         this.setState({
           updateList: []
         });
@@ -150,7 +134,7 @@ class Home extends PureComponent {
     console.log(this.state);
     return (
       <div>
-        <h2>Danh sách đặt hàng</h2>
+        <h2>Danh sách đặt hàng {PRD_MAY_LOC_KK}</h2>
         <div className="btn-action-wapper">
           <Button
             className="btn-success"
@@ -167,7 +151,7 @@ class Home extends PureComponent {
         </div>
         <Table
           columns={this.columns}
-          onFetchData={this.getAllOrder}
+          onFetchData={this.getMayLocKkOrder}
           className="order-table"
           defaultPageSize={10}
           data={data}
@@ -179,4 +163,4 @@ class Home extends PureComponent {
   }
 }
 
-export default Home;
+export default MayLocKk;
