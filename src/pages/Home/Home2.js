@@ -3,7 +3,7 @@ import Moment from 'react-moment';
 import Button from '../../components/Button/Button';
 import Checkbox from '../../components/Input/Checkbox';
 import Table2 from '../../components/Table/Table2';
-import TlvcOrderService from './TlvcOrderService';
+import OrderService from './OrderService';
 import './Home.scss';
 
 const ORDER_SUCCESS = 'THÀNH CÔNG';
@@ -26,9 +26,9 @@ class Home2 extends PureComponent {
     };
   }
 
-  getAllTlvcOrder = (params) => {
+  getAllOrder = (params) => {
     // res là 1 Promise nhé
-    const res = TlvcOrderService.getAllTlvcOrder(params);
+    const res = OrderService.getAllOrder(params);
     return res;
   };
 
@@ -83,11 +83,11 @@ class Home2 extends PureComponent {
       idList: this.state.updateList.toString(),
       status
     };
-    TlvcOrderService.updateTlvcOrderStatus(data)
+    OrderService.updateOrderStatus(data)
       .then((res) => {
-        // KHÔNG thể rerender lại vì getAllTlvcOrder xong ko update state gì
+        // KHÔNG thể rerender lại vì getAllOrder xong ko update state gì
         // Do đó dùng cách này ko ổn
-        this.getAllTlvcOrder();
+        this.getAllOrder();
         this.setState({ updateList: [] });
       })
       .catch((err) => {
@@ -104,8 +104,8 @@ class Home2 extends PureComponent {
         </div>
         <Table2
           columns={this.columns}
-          onFetchData={this.getAllTlvcOrder}
-          className="tlvc-order-table"
+          onFetchData={this.getAllOrder}
+          className="order-table"
           defaultPageSize={10}
         />
       </div>
