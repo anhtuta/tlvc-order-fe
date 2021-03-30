@@ -34,9 +34,9 @@ jobs:
           command: yarn build
       - run:
           name: Compress Artifacts
-          command: tar -cvzf tlvc-order-fe-build.tar build
+          command: tar -cvf tlvc.tar build
       - store_artifacts:
-          path: tlvc-order-fe-build.tar
+          path: tlvc.tar
 
 workflows:
   version: 2.1
