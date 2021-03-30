@@ -34,9 +34,9 @@ jobs:
           command: yarn build
       - run:
           name: Compress Artifacts
-          command: command: tar -cvzf tlvc.tgz build  # Nếu chỉ dùng -cvf thì nó chỉ đóng gói chứ ko nén. Dùng thêm -z sẽ nén (gzip), kích thước file giảm xuống đáng kể! Dùng .tgz hay .tar.gz đều được
+          command: tar -cvzf tlvc.tgz build  # Nếu chỉ dùng -cvf thì nó chỉ đóng gói chứ ko nén. Dùng thêm -z sẽ nén (gzip), kích thước file giảm xuống đáng kể! Dùng .tgz hay .tar.gz đều được
       - store_artifacts:
-          path: tlvc.tar
+          path: tlvc.tgz
 
 workflows:
   version: 2.1
