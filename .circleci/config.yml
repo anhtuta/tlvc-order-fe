@@ -5,12 +5,13 @@ jobs:
   build-and-publish:
     docker:
       - image: circleci/node:latest
+    working_directory: ~/tlvc-order-fe
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies- # fallback to using the latest cache if no exact match is found
+            - tlvc-dependencies-{{ checksum "package.json" }}
+            - tlvc-dependencies- # fallback to using the latest cache if no exact match is found
       # - run:
       #     name: Prepare for testing
       #     command: |
@@ -20,12 +21,14 @@ jobs:
       #     command: |
       #       npm run test a
       - run:
-          name: install dependencies
-          command: yarn install
+          name: Install dependencies
+          command: | 
+            cd ~/tlvc-order-fe
+            yarn install
       - save_cache:
           paths:
-            - ~/usr/local/lib/node_modules  # location depends on npm version
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - node_modules
+          key: tlvc-dependencies-{{ checksum "package.json" }}
       - run:
           name: Build
           command: yarn build
