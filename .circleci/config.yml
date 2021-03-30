@@ -40,7 +40,7 @@ jobs:
 
 workflows:
   version: 2.1
-  sample-workflow:
+  tlvc-order-fe-workflow:
     jobs:
       - build-and-publish
           # filters:  # using regex filters requires the entire branch to match
