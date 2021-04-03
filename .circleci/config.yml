@@ -5,12 +5,13 @@ jobs:
   build-and-publish:
     docker:
       - image: circleci/node:latest
+    working_directory: ~/tlvc-order-fe
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies- # fallback to using the latest cache if no exact match is found
+            - tlvc-dependencies-{{ checksum "package.json" }}
+            - tlvc-dependencies- # fallback to using the latest cache if no exact match is found
       # - run:
       #     name: Prepare for testing
       #     command: |
@@ -20,18 +21,26 @@ jobs:
       #     command: |
       #       npm run test a
       - run:
-          name: Build
-          command: npm build
+          name: Install dependencies
+          command: | 
+            cd ~/tlvc-order-fe
+            yarn install
       - save_cache:
           paths:
-            - ~/usr/local/lib/node_modules  # location depends on npm version
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - node_modules
+          key: tlvc-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Build
+          command: yarn build
+      - run:
+          name: Compress Artifacts
+          command: tar -cvzf tlvc.tgz build  # Nếu chỉ dùng -cvf thì nó chỉ đóng gói chứ ko nén. Dùng thêm -z sẽ nén (gzip), kích thước file giảm xuống đáng kể! Dùng .tgz hay .tar.gz đều được
       - store_artifacts:
-          path: build
+          path: tlvc.tgz
 
 workflows:
   version: 2.1
-  sample-workflow:
+  tlvc-order-fe-workflow:
     jobs:
       - build-and-publish
           # filters:  # using regex filters requires the entire branch to match
