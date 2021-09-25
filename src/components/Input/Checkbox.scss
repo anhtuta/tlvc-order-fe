@@ -1,4 +1,3 @@
-/* Ref: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_checkbox */
 /* The custom-cb-container */
 .custom-cb-container {
   display: block;
@@ -6,7 +5,7 @@
   padding-left: 35px;
   // margin-bottom: 12px;
   cursor: pointer;
-  font-size: 22px;
+  // font-size: 22px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -30,6 +29,13 @@
     width: 25px;
     background-color: #eee;
     border-radius: 4px;
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    &:after {
+      content: '';
+      position: absolute;
+      display: none;
+    }
   }
 }
 
@@ -41,13 +47,6 @@
 /* When the checkbox is checked, add a blue background */
 .custom-cb-container input:checked ~ .checkmark {
   background-color: #2196f3;
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-  content: '';
-  position: absolute;
-  display: none;
 }
 
 /* Show the checkmark when checked */
