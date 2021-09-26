@@ -23,14 +23,31 @@ const ORDER_CANCEL = 'HỦY BỎ';
 class Home extends PureComponent {
   state = {
     data: {},
-    pages: -1,
+    params: {
+      page: 0
+    },
     loading: false,
     updateList: []
   };
 
   getAllOrder = (params) => {
     this.setState({ loading: true });
-    OrderService.getAllOrder(params)
+    const sort = params.sortBy
+      ? params.sortBy + ',' + params.sortOrder
+      : this.state.params.sort;
+    const newParams = {
+      ...this.state.params,
+      ...params,
+      sort
+    };
+    this.setState({
+      params: newParams
+    });
+    const lumenParams = {
+      ...newParams,
+      page: newParams.page + 1 // Because Lumen start page is index 1
+    };
+    OrderService.getAllOrder(lumenParams)
       .then((res) => {
         this.setState({
           data: res.data,
@@ -146,7 +163,7 @@ class Home extends PureComponent {
   };
 
   render() {
-    const { data, pages, loading, updateList } = this.state;
+    const { data, loading, updateList } = this.state;
     console.log(this.state);
     return (
       <div>
@@ -171,7 +188,6 @@ class Home extends PureComponent {
           className="order-table"
           defaultPageSize={10}
           data={data}
-          pages={pages}
           loading={loading}
         />
       </div>
